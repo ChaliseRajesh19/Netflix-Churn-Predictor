@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
+from fastapi.middleware.cors import CORSMiddleware
 import joblib
 import pandas as pd
 
@@ -7,6 +8,17 @@ import pandas as pd
 model = joblib.load("netflix_churn_rf_model.pkl")
 
 app = FastAPI(title="Netflix Churn Prediction API")
+
+
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"], 
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 class UserInput(BaseModel):
     age: int
